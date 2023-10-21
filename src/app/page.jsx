@@ -13,13 +13,16 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [authUser, setAuthUser] = useState({});
   const url = useSearchParams();
+  const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   async function getDatas() {
+    setLoading(true);
     const productsData = await getProducts({ categoryID: url.get('category') || '' });
     const categoriesData = await getCategories();
     setCategories(categoriesData.data.categories);
     setProducts(productsData.data.products);
+    setLoading(false);
   }
   useEffect(() => {
     getDatas();
@@ -37,6 +40,13 @@ export default function Home() {
     fetchData(categoryID);
   };
   const router = useRouter();
+  if (loading) {
+    return (
+      <div className="w-full h-screen absolute inset-0 flex bg-white z-[999] justify-center items-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+      </div>
+    )
+  }
   return (
     <motion.div
       initial="hidden"
