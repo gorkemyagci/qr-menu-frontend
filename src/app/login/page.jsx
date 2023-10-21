@@ -1,11 +1,12 @@
 "use client";
-import React, { use } from 'react';
+import React, { use, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { login } from '@/services/auth';
 import { useRouter } from 'next/navigation';
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const initialValues = {
     username: '',
@@ -18,6 +19,7 @@ const Login = () => {
   });
 
   const handleSubmit = async (values) => {
+    setLoading(true);
     try {
       const res = await login(values);
       if (res.status === 200) {
@@ -26,7 +28,16 @@ const Login = () => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
+
+  if (loading) {
+    return (
+      <div className="w-full h-screen absolute inset-0 flex bg-white z-[999] justify-center items-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
