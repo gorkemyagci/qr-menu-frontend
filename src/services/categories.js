@@ -16,6 +16,7 @@ export const updateCategory = async (category) => {
             name: category.value,
         });
         toast.success("Category updated");
+        typeof window !== "undefined" && window.location.reload();
         return res;
     } catch (err) {
         console.log(err);
@@ -26,7 +27,7 @@ export const deleteCategory = async (id) => {
     try {
         console.log(id);
         const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/categories/${id}`);
-        console.log(res);
+        typeof window !== "undefined" && window.location.reload();
         toast.success("Kategori silindi");
         return res;
     } catch (err) {
