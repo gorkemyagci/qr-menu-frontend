@@ -2,8 +2,8 @@
 import Brand from "@/components/commons/Brand";
 import { getCategories } from "@/services/categories";
 import { getProducts } from "@/services/product";
-import useAuthStore from "@/store/auth";
 import { motion } from "framer-motion";
+import Cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,7 +23,7 @@ export default function Home() {
   }
   useEffect(() => {
     getDatas();
-    setAuthUser(jwtDecode(useAuthStore.getState().accessToken));
+    setAuthUser(jwtDecode(Cookies.get('accessToken')));
   }, [])
   const containerVariants = {
     hidden: { opacity: 0 },
