@@ -43,7 +43,7 @@ export default function Home() {
       className="bg-gradient-to-b from-white to-[#1946c12c] min-h-screen p-8">
       <header className="flex border-b items-center flex-col gap-10 pb-5 justify-between mb-8">
         <h1 className="text-4xl scale-105 w-40 flex h-16 justify-center items-center overflow-hidden font-normal">
-          <Brand width={1150} />
+          <Brand width={150} />
         </h1>
         <ul className="categories flex items-center gap-3">
           {categories?.map((item, index) => (

@@ -10,6 +10,7 @@ const Admin = async () => {
   const getDatas = async () => {
     const categoriesData = await getCategories();
     const productsData = await getProducts({ categoryID: '' });
+    console.log(categoriesData);
     return {
       categoriesData,
       productsData
