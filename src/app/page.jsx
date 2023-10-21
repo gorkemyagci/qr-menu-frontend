@@ -77,7 +77,7 @@ export default function Home() {
           ))}
         </ul>
       </div>
-      {authUser.role === 'admin' && <div className="fixed bottom-10 right-10">
+      {authUser?.role === 'admin' && <div className="fixed bottom-10 right-10">
         <Link href="/admin" className="text-white bg-black rounded-full px-5 py-3 cursor-pointer font-semibold">
           Admin Panel
         </Link>
