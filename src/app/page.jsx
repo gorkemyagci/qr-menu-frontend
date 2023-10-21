@@ -53,7 +53,6 @@ export default function Home() {
         </ul>
       </header>
       <div className="flex flex-col gap-10 max-w-5xl mx-auto mt-10">
-        {products.length === 0 && <span className="text-red-500 font-medium text-center pt-5">Ürün bulunamadı.</span>}
         <ul className="w-full flex flex-col gap-4">
           {products.map((item, itemIndex) => (
             <motion.li
