@@ -1,8 +1,8 @@
 "use client";
 import Input from '@/components/Input';
 import Brand from '@/components/commons/Brand'
-import { createCategory, getCategories, updateCategory } from '@/services/categories'
-import { createProduct, getProducts, updateProduct } from '@/services/product'
+import { createCategory, deleteCategory, getCategories, updateCategory } from '@/services/categories'
+import { createProduct, deleteProduct, getProducts, updateProduct } from '@/services/product'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
