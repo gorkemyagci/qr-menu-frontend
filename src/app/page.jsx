@@ -11,8 +11,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  let accessToken = useAuthStore.getState().accessToken;
-  let userRole = jwtDecode(accessToken)?.role;
+  const [authUser, setAuthUser] = useState({});
   const url = useSearchParams();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -24,6 +23,7 @@ export default function Home() {
   }
   useEffect(() => {
     getDatas();
+    setAuthUser(jwtDecode(useAuthStore.getState().accessToken));
   }, [])
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -77,7 +77,7 @@ export default function Home() {
           ))}
         </ul>
       </div>
-      {userRole === 'admin' && <div className="fixed bottom-10 right-10">
+      {authUser.role === 'admin' && <div className="fixed bottom-10 right-10">
         <Link href="/admin" className="text-white bg-black rounded-full px-5 py-3 cursor-pointer font-semibold">
           Admin Panel
         </Link>
