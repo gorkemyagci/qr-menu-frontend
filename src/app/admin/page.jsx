@@ -8,16 +8,14 @@ import React from 'react'
 
 const Admin = async () => {
   const getDatas = async () => {
-    const categoriesData = await getCategories();
-    const productsData = await getProducts({ categoryID: '' });
-    console.log(categoriesData);
-    return {
-      categoriesData,
-      productsData
-    }
+      const categoriesData = await getCategories();
+      const productsData = await getProducts({ categoryID: ''});
+      return {
+        categoriesData,
+        productsData
+      }
   }
   const { categoriesData, productsData } = await getDatas();
-  console.log(categoriesData, productsData);
   return (
     <div className='max-w-5xl mx-auto p-10'>
       <Link href={{
