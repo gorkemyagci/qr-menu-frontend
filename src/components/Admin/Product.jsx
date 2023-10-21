@@ -6,6 +6,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 
 const Product = ({ text, data, categories }) => {
+  const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState({
     type: 'create',
     name: '',
@@ -15,6 +16,7 @@ const Product = ({ text, data, categories }) => {
     objectId: ''
   })
   async function createOrUpdateProduct({ type, product }) {
+    setLoading(true);
     if (type === 'create') {
       await createProduct({
         name: product.name,
@@ -31,6 +33,7 @@ const Product = ({ text, data, categories }) => {
         objectId: inputValue.objectId
       });
     }
+    setLoading(false);
   }
   function covertToBase64(file) {
     let reader = new FileReader();
@@ -41,6 +44,13 @@ const Product = ({ text, data, categories }) => {
         image: reader.result
       })
     };
+  }
+  if (loading) {
+    return (
+      <div className='w-full h-screen absolute inset-0 flex bg-white z-[999] justify-center items-center'>
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+      </div>
+    )
   }
   return (
     <div className='flex flex-col mt-10 gap-10'>
@@ -57,14 +67,18 @@ const Product = ({ text, data, categories }) => {
               price: e.target.value
             })} />
             <label className='h-full border border-gray-300 rounded-md outline-none flex items-center justify-center px-4'>
-              <span className='text-gray-400 flex-shrink-0 px-2'>Ürün Resmi</span>
+              <span className='text-gray-400 flex-shrink-0 px-2'>
+                {
+                  inputValue.image === null ? 'Ürün Resmi' : 'Resim Seçildi'
+                }
+              </span>
               <span className="hidden">
                 <Input type='file' placeholder='Ürün Resmi' accept="image/*" onChange={covertToBase64} />
               </span>
             </label>
           </div>
           <select
-            className='h-full border border-gray-300 rounded-md outline-none'
+            className='border border-gray-300 h-10 rounded-md outline-none'
             value={inputValue.categoryID}
             onChange={(e) => setInputValue({ ...inputValue, categoryID: e.target.value })}
           >
@@ -98,7 +112,11 @@ const Product = ({ text, data, categories }) => {
           {data?.map((item, index) => {
             return (
               <div key={item.id} className='flex justify-between items-center border-2 px-4 py-2.5 shadow-md rounded-lg'>
-                <span className='font-medium text-[#212121]'>{item.name}</span>
+                <div className="flex items-center w-full gap-5">
+                  <span className='font-medium text-[#212121]'><span className="font-normal">Ürün:</span> {item.name}</span>
+                  |
+                  <span className='font-medium text-[#212121]'><span className="font-normal">Fiyat:</span> {item.price} TL</span>
+                </div>
                 <div>
                   <span onClick={() => {
                     setInputValue({
@@ -106,7 +124,7 @@ const Product = ({ text, data, categories }) => {
                       name: item.name,
                       price: item.price,
                       image: item.image,
-                      categoryID: item.category._id,
+                      categoryID: item.categoryID._id,
                       objectId: item._id
                     });
                   }} className='text-white bg-green-500 rounded-md px-5 py-2 cursor-pointer font-semibold mr-2'>Düzenle</span>

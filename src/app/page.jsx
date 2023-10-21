@@ -2,12 +2,17 @@
 import Brand from "@/components/commons/Brand";
 import { getCategories } from "@/services/categories";
 import { getProducts } from "@/services/product";
+import useAuthStore from "@/store/auth";
 import { motion } from "framer-motion";
+import jwtDecode from "jwt-decode";
+import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
+  let accessToken = useAuthStore.getState().accessToken;
+  let userRole = jwtDecode(accessToken)?.role;
   const url = useSearchParams();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -29,6 +34,7 @@ export default function Home() {
     setActiveCategory(categoryID);
     fetchData(categoryID);
   };
+  const router = useRouter();
   return (
     <motion.div
       initial="hidden"
@@ -42,7 +48,7 @@ export default function Home() {
         <ul className="categories flex items-center gap-3">
           {categories?.map((item, index) => (
             <Link href={{
-              pathname: '/',
+              pathname: router.pathname,
               query: { category: item._id }
             }} onClick={() => {
               handleCategoryChange(item._id);
@@ -53,21 +59,29 @@ export default function Home() {
         </ul>
       </header>
       <div className="flex flex-col gap-10 max-w-5xl mx-auto mt-10">
-        <ul className="w-full flex flex-col gap-4">
+        <ul className="grid grid-cols-4 gap-10">
           {products.map((item, itemIndex) => (
             <motion.li
               initial={{ x: -30 }}
               animate={{ x: 0 }}
               transition={{ delay: itemIndex * 0.05 }}
               key={itemIndex}
-              className="flex justify-between items-center border-2 px-4 py-2.5 shadow-md rounded-lg"
+              className="flex justify-between flex-col w-[200px] rounded-t-lg items-center border-2 shadow-md rounded-lg"
             >
-              <span className="font-medium text-[#212121]">{item.name}</span>
-              <span className="text-green-700 font-semibold">{item.price} TL</span>
+              <Image src={item.image} width={200} height={150} className="rounded-b-3xl rounded-t-lg" alt={item.name} />
+              <div className="w-full flex items-center py-2.5 px-4 justify-between">
+                <span className="font-medium text-[#212121]">{item.name}</span>
+                <span className="text-green-700 font-semibold">{item.price} TL</span>
+              </div>
             </motion.li>
           ))}
         </ul>
       </div>
+      {userRole === 'admin' && <div className="fixed bottom-10 right-10">
+        <Link href="/admin" className="text-white bg-black rounded-full px-5 py-3 cursor-pointer font-semibold">
+          Admin Panel
+        </Link>
+      </div>}
     </motion.div>
   );
 }

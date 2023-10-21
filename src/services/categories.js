@@ -27,7 +27,7 @@ export const deleteCategory = async (id) => {
         console.log(id);
         const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/categories/${id}`);
         console.log(res);
-        toast.success("Category deleted");
+        toast.success("Kategori silindi");
         return res;
     } catch (err) {
         console.log(err);

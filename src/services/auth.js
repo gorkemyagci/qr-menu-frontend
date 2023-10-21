@@ -9,7 +9,7 @@ export const login = async (user) => {
             password: user.password,
         });
         useAuthStore.getState().setAccessToken(res.data.accessToken);
-        toast.success("Login success");
+        toast.success("Giriş Yapıldı");
         return res;
     } catch (err) {
         console.log(err);
