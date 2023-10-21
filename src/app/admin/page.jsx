@@ -17,6 +17,7 @@ const Admin = async () => {
     }
   }
   const { categoriesData, productsData } = await getDatas();
+  console.log(categoriesData, productsData);
   return (
     <div className='max-w-5xl mx-auto p-10'>
       <Link href={{

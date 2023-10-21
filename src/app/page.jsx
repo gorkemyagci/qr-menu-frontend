@@ -23,7 +23,9 @@ export default function Home() {
   }
   useEffect(() => {
     getDatas();
-    setAuthUser(jwtDecode(Cookies.get('accessToken')));
+    if (Cookies.get('accessToken')) {
+      setAuthUser(jwtDecode(Cookies.get('accessToken')));
+    }
   }, [])
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -58,18 +60,18 @@ export default function Home() {
           ))}
         </ul>
       </header>
-      <div className="flex flex-col gap-10 max-w-5xl mx-auto mt-10">
-        <ul className="grid grid-cols-4 gap-10">
+      <div className="flex justify-center items-center mx-auto w-full">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 justify-start">
           {products.map((item, itemIndex) => (
             <motion.li
               initial={{ x: -30 }}
               animate={{ x: 0 }}
               transition={{ delay: itemIndex * 0.05 }}
               key={itemIndex}
-              className="flex justify-between flex-col w-[200px] rounded-t-lg items-center border-2 shadow-md rounded-lg"
+              className="flex justify-between flex-col md:w-[200px] w-full rounded-t-lg items-center border-2 shadow-md rounded-lg"
             >
-              <Image src={item.image} width={200} height={150} className="rounded-b-3xl rounded-t-lg" alt={item.name} />
-              <div className="w-full flex items-center py-2.5 px-4 justify-between">
+              <Image src={item.image} width={200} height={150} className="rounded-b-3xl w-full rounded-t-lg" alt={item.name} />
+              <div className="w-full flex items-center pt-3 pb-2.5 px-4 justify-between">
                 <span className="font-medium text-[#212121]">{item.name}</span>
                 <span className="text-green-700 font-semibold">{item.price} TL</span>
               </div>
